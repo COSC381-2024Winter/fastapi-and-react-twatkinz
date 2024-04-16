@@ -48,3 +48,7 @@ def delete_movie(movie_id: int):
                 }
 
 
+@app.post("/movies/add")
+def add_movie(movie: Movie):
+    new_movie = movies.add_movie(movie.name, movie.cast)
+    return new_movie

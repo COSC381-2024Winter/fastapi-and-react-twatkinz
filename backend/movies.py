@@ -32,27 +32,19 @@ class Movies:
                 }
             )
 
-'''
+
     def add_movie(self, title, cast):
         self._idcounter += 1
-        self._movies.append({
+        new_movie = {
             'name': title,
             'cast': cast,
             'id': self._idcounter
-        })
+        }
+        self._movies.append(new_movie)
+        return new_movie
 
-    def update_movie(self, movie_id, new_title=None, new_cast=None):
-        for movie in self._movies:
-            if movie['id'] == movie_id:
-                if new_title:
-                    movie['name'] = new_title
-                if new_cast:
-                    movie['cast'] = new_cast
-                return True  # Movie updated successfully
-            return False  # Movie with given ID not found
 
-'''
 
 if __name__ == "__main__":
     movies = Movies('./movies.txt')
-#    movies.add_movie("New Movie", ["Actor1", "Actor2"])
+    movies.add_movie("New Movie", ["Actor1", "Actor2"])

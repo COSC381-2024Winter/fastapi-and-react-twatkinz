@@ -1,40 +1,58 @@
 class Movies:
     def __init__(self, movies_file):
         self._movies = []
+        self._idcounter = 0
 
         with open(movies_file, encoding="utf-8") as file:
-            idcounter = 0
             row_idx = 0
             for line in file:
-                if row_idx%3 == 0:
+                if row_idx % 3 == 0:
                     movie_name = line.rstrip()
-                if row_idx%3 == 1:
+                elif row_idx % 3 == 1:
                     movie_cast = line.rstrip().split(',')
-                if row_idx%3 == 2:
-                    idcounter += 1
+                elif row_idx % 3 == 2:
+                    self._idcounter += 1
                     self._movies.append(
                         {
                             'name': movie_name,
                             'cast': movie_cast,
-                            'id': idcounter
+                            'id': self._idcounter
                         }
                     )
-                    movie_name = None
-                    movie_cast = None
-                    movie_id = None
                 row_idx += 1
-                
 
         if movie_name and movie_cast:
             # Add the last movie to the list
-            idcounter += 1
+            self._idcounter += 1
             self._movies.append(
                 {
                     'name': movie_name,
                     'cast': movie_cast,
-                    'id': idcounter
+                    'id': self._idcounter
                 }
             )
 
+'''
+    def add_movie(self, title, cast):
+        self._idcounter += 1
+        self._movies.append({
+            'name': title,
+            'cast': cast,
+            'id': self._idcounter
+        })
+
+    def update_movie(self, movie_id, new_title=None, new_cast=None):
+        for movie in self._movies:
+            if movie['id'] == movie_id:
+                if new_title:
+                    movie['name'] = new_title
+                if new_cast:
+                    movie['cast'] = new_cast
+                return True  # Movie updated successfully
+            return False  # Movie with given ID not found
+
+'''
+
 if __name__ == "__main__":
     movies = Movies('./movies.txt')
+#    movies.add_movie("New Movie", ["Actor1", "Actor2"])

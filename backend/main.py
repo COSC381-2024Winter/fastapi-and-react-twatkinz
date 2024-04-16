@@ -31,3 +31,20 @@ def update_movie(movie_id: int, movie: Movie):
                     "movie_cast": i['cast'],
                     "movie_id": i['id']
                 }
+    else:
+        return{None}
+
+
+@app.delete("/movies/{movie_id}")
+def delete_movie(movie_id: int):
+    for i, movie in enumerate(movies._movies):
+        if movie_id is movie['id']:
+            deleted_movie = movies._movies[i]
+            del movies._movies[i]
+            return {
+                    "movie_name": deleted_movie['name'],
+                    "movie_cast": deleted_movie['cast'],
+                    "movie_id": deleted_movie['id']
+                }
+
+

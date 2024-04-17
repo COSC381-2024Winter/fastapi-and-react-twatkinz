@@ -6,19 +6,22 @@ import { useEffect, useState } from 'react'
 
 function App() {
   const [movieId, setMovieId] = useState("1")
+  const [movie, setMovie] = useState(null); 
+
 
   useEffect(() => {
     console.log(`${movieId}`)
 
     if(movieId === "") {
-      setMovieId(movieId)
+      setMovie(null)
     } else if(isNaN(movieId)) {
-      setMovieId(movieId)
+      setMovie(null)
     } else {
       fetch(`http://localhost:8000/movies/${movieId}`)
       .then(result => result.json())
       .then(result => {
         console.log(result)
+        setMovie(result)
       })
     }
   }, [movieId])
@@ -34,6 +37,14 @@ function App() {
           value={movieId}
           onChange={e=>setMovieId(e.target.value)}
         />
+        <List>
+          {movie && (
+            <ListItem>
+              <ListItemIcon><LocalMoviesIcon /></ListItemIcon>
+              <ListItemText primary={movie['name']}> </ListItemText>
+            </ListItem>
+          )}
+        </List>
       </header>
     </div>
   );

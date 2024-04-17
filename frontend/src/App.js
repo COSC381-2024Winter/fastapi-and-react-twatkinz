@@ -1,27 +1,66 @@
-import logo from './logo.svg';
 import './App.css';
-import { TextField } from '@mui/material';
-import { useEffect, useState } from 'react';
+import { List, ListItem, ListItemIcon, ListItemText, TextField } from '@mui/material'
+import LocalMoviesIcon from '@mui/icons-material/LocalMovies'
+import { useEffect, useState } from 'react'
+
 
 function App() {
-  const [itemId, setItemId] = useState("1")
+  const [movieId, setMovieId] = useState("1")
+  const [movie, setMovie] = useState(null)
 
   useEffect(() => {
-    console.log(`$itemId`)
-  }, [itemId])
+    console.log(`${movieId}`)
+
+    if(movieId === "") {
+      setMovie(null)
+    } else if(isNaN(movieId)) {
+      setMovie(null)
+    } else {
+      fetch(`http://localhost:8000/movies/${movieId}`)
+      .then(result => result.json())
+      .then(result => {
+        console.log(result)
+        setMovie(result)
+      })
+    }
+
+  }, [movieId])
 
   return (
     <div className="App">
       <header className="App-header">
-      <TextField
+        <TextField
           id="outline-basic"
-          label="Item ID"
+          label="Movie ID"
           variant="outlined"
           color="warning" focused
-          value={itemId}
-          onChange={e=>setItemId(e.target.value)}
+          value={movieId}
+          onChange={e=>setMovieId(e.target.value)}
         />
       </header>
+
+      <List>
+        {
+          movieId === "" ? (
+            <ListItem>
+              <ListItemIcon><LocalMoviesIcon /></ListItemIcon>
+              <ListItemText primary={"Movie ID"}></ListItemText>
+            </ListItem>
+          ) : (
+            movie ? (
+              <ListItem>
+                <ListItemIcon><LocalMoviesIcon /></ListItemIcon>
+                <ListItemText primary={movie['name']}></ListItemText>
+              </ListItem>
+            ) : (
+              <ListItem>
+                <ListItemIcon><LocalMoviesIcon /></ListItemIcon>
+                <ListItemText primary={`no movie found`}></ListItemText>
+              </ListItem>
+            )
+          )
+         }
+      </List>
     </div>
   );
 }

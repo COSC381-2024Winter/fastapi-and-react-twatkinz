@@ -1,22 +1,26 @@
 import logo from './logo.svg';
 import './App.css';
+import { TextField } from '@mui/material';
+import { useEffect, useState } from 'react';
 
 function App() {
+  const [itemId, setItemId] = useState("1")
+
+  useEffect(() => {
+    console.log(`$itemId`)
+  }, [itemId])
+
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+      <TextField
+          id="outline-basic"
+          label="Item ID"
+          variant="outlined"
+          color="warning" focused
+          value={itemId}
+          onChange={e=>setItemId(e.target.value)}
+        />
       </header>
     </div>
   );

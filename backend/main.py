@@ -3,8 +3,22 @@ from movies import Movies
 from pydantic import BaseModel
 
 
+
 movies = Movies('./movies.txt')
 app = FastAPI()
+
+from fastapi.middleware.cors import CORSMiddleware
+origins = [
+    "http://localhost:3000",
+]
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=[*],
+    allow_headers=[*],
+)
+
 
 class Movie(BaseModel):
     name: str
